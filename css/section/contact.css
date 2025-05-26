@@ -1,0 +1,13 @@
+.co-hover {
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease-in-out;
+}
+
+.co-hover:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 8px #0d6efd;
+}
+
+.no-resize {
+    resize: none;
+}

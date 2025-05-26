@@ -1,0 +1,25 @@
+.h-img {
+    height: 400px;
+    object-fit: cover;
+    width: 100%;
+    display: block;
+}
+
+.glass-carou {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.availability-form {
+    margin-top: -50px;
+    z-index: 2;
+    position: relative;
+}
+
+@media screen and (max-width: 768px) {
+    .availability-form {
+        margin-top: 20px;
+        padding: 0 35px;
+    }
+}

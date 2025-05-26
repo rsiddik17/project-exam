@@ -1,0 +1,38 @@
+@import url(section/header.css);
+@import url(section/carousel.css);
+@import url(section/facilities.css);
+@import url(section/contact.css);
+@import url(section/footer.css);
+@import url(section/about.css);
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'monserrat', sans-serif;
+}
+
+body {
+    overflow-x: hidden;
+    max-width: 100%;
+}
+
+.sec-font {
+    font-family: 'Playfair Display', cursive;
+}
+
+.submit-bg {
+    background-color: #1abc9c;
+    color: #ffffff;
+}
+
+.submit-bg:hover {
+    background-color: #16a085;
+    color: #ffffff;
+}
+
+.bg-c {
+    background-color: #ffffff;
+}
+
+
