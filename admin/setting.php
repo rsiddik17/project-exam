@@ -26,7 +26,7 @@ adminLogin();
 
                 <div id="alert-container" style="position: fixed; top: 80px; right: 20px; z-index: 1050;"></div>
 
-                <!-- General Settings section -->
+                <!-- General Setting section -->
                 <div class="card border-0 shadow-sm mb-4">
                     <div class="card-body">
                         <div class="d-flex align-items-center justify-content-between mb-3">
@@ -154,7 +154,7 @@ adminLogin();
                 <!-- Contact Setting Modal -->
                 <div class="modal fade" id="contact-setting" data-bs-backdrop="static" data-bs-keyboard="true" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
-                        <form action="" id="contacts_s_form">
+                        <form action="" id="contacts-setting-form">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title">Contacts Settings</h5>
@@ -226,6 +226,53 @@ adminLogin();
                     </div>
                 </div>
 
+                <!-- Management Team section -->
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <h5 class="card-title m-0">Management Team</h5>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#team-setting">
+                                <i class="bi bi-plus-square"></i> Add
+                            </button>
+                        </div>
+
+                        <div class="row" id="team-data">
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Management Team Modal -->
+                <div class="modal fade" id="team-setting" data-bs-backdrop="static" data-bs-keyboard="true" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <form action="" id="team-setting-form">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Add Team Member</h5>
+                                </div>
+
+                                <div class="modal-body">
+
+                                    <div class="mb-3">
+                                        <label for="member_name" class="form-label">Name</label>
+                                        <input type="text" id="member_name_inp" name="member_name" class="form-control shadow-none" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="member_picture" class="form-label">Picture</label>
+                                        <input type="file" id="member_picture_inp" name="member_picture" accept="[.jpg, .png, .webp, .jpeg]" class="form-control shadow-none" required>
+                                    </div>
+
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" onclick="member_name.value='', member_picture.value=''" class="btn text-secondary shadow-none" data-bs-dismiss="modal">Cancel</button>
+                                    <button type="submit" class="btn btn-primary shadow-none">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
 
             </div>
         </div>
@@ -240,9 +287,19 @@ adminLogin();
         let general_setting_form = document.getElementById('general-setting-form');
         let site_title_inp = document.getElementById('site_title_inp');
         let site_about_inp = document.getElementById('site_about_inp');
-        
-        let contacts_s_form = document.getElementById('contacts_s_form');
 
+        let contacts_setting_form = document.getElementById('contacts-setting-form');
+
+        let team_setting_form = document.getElementById('team-setting-form');
+        let member_name_inp = document.getElementById('member_name_inp');
+        let member_picture_inp = document.getElementById('member_picture_inp');
+
+
+        // General
+        general_setting_form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            upd_general(site_title_inp.value, site_about_inp.value);
+        })
 
         function get_general() {
             let site_title = document.getElementById('site_title');
@@ -277,13 +334,6 @@ adminLogin();
             xhr.send('get_general');
         }
 
-
-        general_setting_form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            upd_general(site_title_inp.value, site_about_inp.value);
-        })
-
-
         function upd_general(site_title_val, site_about_val) {
             let xhr = new XMLHttpRequest();
             xhr.open("POST", "ajax/setting_crud.php", true)
@@ -308,6 +358,7 @@ adminLogin();
         }
 
 
+        // Shutdown
         function upd_shutdown(val) {
             let xhr = new XMLHttpRequest();
             xhr.open("POST", "ajax/setting_crud.php", true)
@@ -328,6 +379,12 @@ adminLogin();
             xhr.send('upd_shutdown=' + val);
         }
 
+
+        // Contacts
+        contacts_setting_form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            upd_contacts();
+        })
 
         function get_contacts() {
             let contacts_p_id = ['address', 'gmap', 'phone1', 'email', 'tw', 'insta', 'fb', 'iframe'];
@@ -355,29 +412,24 @@ adminLogin();
             xhr.send('get_contacts')
         }
 
-        function contacts_inp(data){
+        function contacts_inp(data) {
             let contacts_inp_id = ['address_inp', 'gmap_inp', 'phone1_inp', 'email_inp', 'tw_inp', 'insta_inp', 'fb_inp', 'iframe_inp'];
 
-            for(i=0;i<contacts_inp_id.length;i++){
-                document.getElementById(contacts_inp_id[i]).value = data[i+1];
+            for (i = 0; i < contacts_inp_id.length; i++) {
+                document.getElementById(contacts_inp_id[i]).value = data[i + 1];
             }
         }
 
-        contacts_s_form.addEventListener('submit',function(e){
-            e.preventDefault();
-            upd_contacts();
-        })
-
-        function upd_contacts(){
+        function upd_contacts() {
             let index = ['address', 'gmap', 'phone1', 'email', 'tw', 'insta', 'fb', 'iframe'];
             let contacts_inp_id = ['address_inp', 'gmap_inp', 'phone1_inp', 'email_inp', 'tw_inp', 'insta_inp', 'fb_inp', 'iframe_inp'];
 
-            let data_str="";
+            let data_str = "";
 
-            for(i=0;i<index.length;i++){
+            for (i = 0; i < index.length; i++) {
                 data_str += index[i] + "=" + document.getElementById(contacts_inp_id[i]).value + '&';
             }
-            
+
             data_str += "upd_contacts";
 
             let xhr = new XMLHttpRequest();
@@ -401,9 +453,79 @@ adminLogin();
         }
 
 
+        // Management Team
+        team_setting_form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            add_member();
+        })
+
+        function add_member() {
+            let data = new FormData();
+            data.append('name', member_name_inp.value);
+            data.append('picture', member_picture_inp.files[0]);
+            data.append('add_member', '');
+
+            let xhr = new XMLHttpRequest();
+            xhr.open("POST", "ajax/setting_crud.php", true)
+
+            xhr.onload = function() {
+                console.log(this.responseText);
+
+                var myModal = document.getElementById('team-setting');
+                var modal = bootstrap.Modal.getInstance(myModal);
+                modal.hide();
+
+                if (this.responseText == 'invalid_img') {
+                    alert('error', 'Only JPG and PNG images are allowed!');
+                } else if (this.responseText == 'invalid_size') {
+                    alert('error', 'Image Should be less than 2MB!');
+                } else if (this.responseText == 'update_failed') {
+                    alert('error', 'Image upload failed. Server Down!');
+                } else {
+                    alert('success', 'New member added!');
+                    member_name_inp.value = '';
+                    member_picture_inp.value = '';
+                    get_members();
+                }
+            }
+            xhr.send(data);
+        }
+
+        function get_members() {
+            let xhr = new XMLHttpRequest();
+            xhr.open("POST", "ajax/setting_crud.php", true)
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+            xhr.onload = function() {
+                document.getElementById('team-data').innerHTML = this.responseText;
+            }
+
+
+            xhr.send('get_members');
+        }
+
+        function rem_member(val ) {
+            let xhr = new XMLHttpRequest();
+            xhr.open("POST", "ajax/setting_crud.php", true)
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+            xhr.onload = function() {
+                if(this.responseText == 1) {
+                    alert('success', 'Member removed!');
+                    get_members();
+                } else {
+                    alert('error', 'Server down!');
+                }
+            }
+
+
+            xhr.send('rem_member='+val);
+        }
+
         window.onload = function() {
             get_general();
             get_contacts();
+            get_members();
         }
     </script>
 </body>
