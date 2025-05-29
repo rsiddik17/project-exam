@@ -6,13 +6,20 @@
   box-shadow: 0 0 10px rgba(13, 110, 253, 0.5);
 }
 
-@media screen and (max-width: 992px) {
-    #dashboard-menu {
-        height: auto;
-        width: 100%;
-    }
-
-    #main-content {
-        margin-top: 60px;
-    }
+#dashboard-menu {
+    position: fixed;
+    height: 100%;
 }
+
+@media screen and (max-width: 992px) {
+  #dashboard-menu {
+    height: auto;
+    width: 100%;
+    z-index: 11;
+  }
+
+  #main-content {
+    margin-top: 60px;
+  }
+}
+

@@ -69,15 +69,3 @@
     left: 50%;
     transform: translateX(-50%);
 }
-
-#dashboard-menu {
-    position: fixed;
-    height: 100%;
-}
-
-.custom-alert-2 {
-    position: absolute;
-    top: 80px;
-    right: 25px;
-    z-index: 9999;
-}

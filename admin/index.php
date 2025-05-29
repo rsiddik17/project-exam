@@ -39,7 +39,7 @@ if ((isset($_SESSION['adminLogin']) && $_SESSION['adminLogin'] == true)) {
         } else {
             alert('error', 'Login Failed! Username or Password Wrong');
         }
-    }
+    }   
 
     ?>
 
