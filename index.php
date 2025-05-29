@@ -18,21 +18,20 @@
         <div class="swiper swiper-container">
             <div class="swiper-wrapper">
 
-                <div class="swiper-slide">
-                    <img src="images/carousel/hotel-1.png" class="w-100 h-img d-block" />
-                </div>
+                <?php
+                $res = selectAll('carousel');
 
-                <div class="swiper-slide">
-                    <img src="images/carousel/hotel-2.png" class="w-100 h-img d-block" />
-                </div>
+                while ($row = mysqli_fetch_assoc($res)) {
+                    $path = CAROUSEL_IMG_PATH;
+                    echo <<<DATA
+                    <div class="swiper-slide">
+                        <img src="$path$row[image]" class="w-100 h-img d-block" />
+                    </div>
+                DATA;
+                }
 
-                <div class="swiper-slide">
-                    <img src="images/carousel/hotel-3.png" class="w-100 h-img d-block" />
-                </div>
+                ?>
 
-                <div class="swiper-slide">
-                    <img src="images/carousel/hotel-4.png" class="w-100 h-img d-block" />
-                </div>
             </div>
         </div>
     </div>
@@ -404,34 +403,44 @@
     </div>
 
     <!-- Contact Us -->
+
+    <?php
+
+    $contact_q = "SELECT * FROM `contact_details` WHERE `id`=?";
+    $values = [1];
+    $contact_con = mysqli_fetch_assoc(select($contact_q, $values, 'i'));
+
+    ?>
+
     <h2 class="mt-4 pt-4 mb-5 text-center fw-bold sec-font">Contact Us</h2>
     <div class="container">
         <div class="row">
 
             <div class="col-lg-8 col-md-8 p-3 mb-lg-0 mb-3 bg-white shadow rounded">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3963.506900448354!2d106.77729787399389!3d-6.583732393409815!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69c45243f50bff%3A0x19dbaa73fce1ea4a!2sNew%20Garden%20Hotel!5e0!3m2!1sid!2sid!4v1747995119200!5m2!1sid!2sid" class="w-100" height="350" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <iframe src="<?php echo $contact_con['iframe'] ?>" class="w-100" height="350" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
 
             <div class="col-lg-4 col-md-4">
                 <div class="bg-white p-4 shadow rounded mb-4">
                     <h5>Call Us</h5>
                     <span class="badge bg-light text-dark fs-6 p-2 co-hover">
-                        <a href="tel: +6289608762017" class="d-inline-block text-decoration-none text-dark"><i class="bi bi-telephone-fill"></i> +6289608762017</a>
+                        <a href="tel: +<?php echo $contact_con['phone1'] ?>" class="d-inline-block text-decoration-none text-dark"><i class="bi bi-telephone-fill"></i> +<?php echo $contact_con['phone1'] ?></a>
                     </span>
                 </div>
 
                 <div class="bg-white p-4 rounded shadow mb-4">
                     <h5>Follow Us</h5>
+
                     <span class="badge bg-light text-dark fs-6 p-2 mb-2 co-hover">
-                        <a href="https://twitter.com/" class="d-inline-block text-decoration-none text-dark"><i class="bi bi-twitter-x me-1"></i> Twitter</a>
+                        <a href="<?php echo $contact_con['tw'] ?>" class="d-inline-block text-decoration-none text-dark"><i class="bi bi-twitter-x me-1"></i> Twitter</a>
                     </span>
                     <br>
                     <span class="badge bg-light text-dark fs-6 p-2 mb-2 co-hover">
-                        <a href="https://instagram.com/" class="d-inline-block text-decoration-none text-dark"><i class="bi bi-instagram me-1"></i> Instagram</a>
+                        <a href="<?php echo $contact_con['insta'] ?>" class="d-inline-block text-decoration-none text-dark"><i class="bi bi-instagram me-1"></i> Instagram</a>
                     </span>
                     <br>
                     <span class="badge bg-light text-dark fs-6 p-2 co-hover">
-                        <a href="https://facebook.com/" class="d-inline-block text-decoration-none text-dark"><i class="bi bi-facebook me-1"></i> Facebook</a>
+                        <a href="<?php echo $contact_con['fb'] ?>" class="d-inline-block text-decoration-none text-dark"><i class="bi bi-facebook me-1"></i> Facebook</a>
                     </span>
                 </div>
             </div>
@@ -440,7 +449,7 @@
 
     <!-- Footer -->
     <?php require('inc/footer.php') ?>
-    
+
     <?php require('inc/scripts.php') ?>
     <script>
         var swiper = new Swiper(".swiper-container", {

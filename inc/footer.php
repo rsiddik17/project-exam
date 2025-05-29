@@ -1,3 +1,12 @@
+<?php
+    
+        $contact_q = "SELECT * FROM `contact_details` WHERE `id`=?";
+        $values = [1];
+        $contact_con = mysqli_fetch_assoc(select($contact_q, $values, 'i'));
+
+?>
+
+
 <div class="container-fluid bg-fo mt-5 pt-4">
     <div class="row">
         <div class="col-lg-3 col-md-6 mb-4 m">
@@ -39,9 +48,9 @@
         <div class="col-lg-3 col-md-12 mb-4">
             <h5 class="fw-semibold mb-3">Follow Us</h5>
             <div class="d-flex gap-3">
-                <a href="https://facebook.com/" class="text-white fs-5"><i class="bi bi-facebook"></i></a>
-                <a href="https://instagram.com/" class="text-white fs-5"><i class="bi bi-instagram"></i></a>
-                <a href="https://twitter.com/" class="text-white fs-5"><i class="bi bi-twitter-x"></i></a>
+                <a href="<?php echo $contact_con['tw'] ?>" class="text-white fs-5"><i class="bi bi-twitter-x"></i></a>
+                <a href="<?php echo $contact_con['insta'] ?>" class="text-white fs-5"><i class="bi bi-instagram"></i></a>
+                <a href="<?php echo $contact_con['fb'] ?>" class="text-white fs-5"><i class="bi bi-facebook"></i></a>
                 <a href="https://youtube.com/" class="text-white fs-5"><i class="bi bi-youtube"></i></a>
             </div>
         </div>

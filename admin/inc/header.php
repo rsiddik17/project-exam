@@ -19,13 +19,13 @@
                         <a class="nav-link" href="dashboard.php">Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Rooms</a>
+                        <a class="nav-link" href="rooms.php">Rooms</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Users</a>
+                        <a class="nav-link" href="carousel.php">Carousel</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="setting.php">Settings</a>
+                        <a class="nav-link" href="settings.php">Settings</a>
                     </li>
                 </ul>
 

@@ -72,25 +72,23 @@
     <div class="container px-4">
         <div class="swiper mySwiper">
             <div class="swiper-wrapper mb-5">
-                <div class="swiper-slide bg-white text-center overflow-hidden rounded">
-                    <img src="images/about/founders.jpg" class="w-100" alt="">
-                    <h5 class="mt-2">Uus</h5>
-                </div>
 
-                <div class="swiper-slide bg-white text-center overflow-hidden rounded">
-                    <img src="images/about/founders.jpg" class="w-100" alt="">
-                    <h5 class="mt-2">Uus</h5>
-                </div>
+                <?php
 
-                <div class="swiper-slide bg-white text-center overflow-hidden rounded">
-                    <img src="images/about/founders.jpg" class="w-100" alt="">
-                    <h5 class="mt-2">Uus</h5>
-                </div>
+                $about_con = selectAll('team_details');
+                $path = ABOUT_IMG_PATH;
+                
+                while($row = mysqli_fetch_assoc($about_con)) {
+                    echo <<< data
+                        <div class="swiper-slide bg-white text-center overflow-hidden rounded">
+                            <img src="$path$row[picture]" class="w-100" alt="">
+                            <h5 class="mt-2">$row[name]</h5>
+                        </div>
+                    data;
+                }
 
-                <div class="swiper-slide bg-white text-center overflow-hidden rounded">
-                    <img src="images/about/founders.jpg" class="w-100" alt="">
-                    <h5 class="mt-2">Uus</h5>
-                </div>
+                ?>
+
             </div>
             <div class="swiper-pagination"></div>
         </div>
@@ -98,7 +96,7 @@
 
     <!-- Footer -->
     <?php require('inc/footer.php') ?>
-    
+
     <?php require('inc/scripts.php') ?>
     <script>
         var swiper = new Swiper(".mySwiper", {
