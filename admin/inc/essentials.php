@@ -38,11 +38,11 @@ function alert($type, $msg)
     $succ_fail = ($type == "success") ? "alert-success" : "alert-danger";
 
     echo <<<alert
-                <div class="alert $succ_fail alert-dismissible fade show custom-alert" role="alert">
+                <div class="alert $succ_fail alert-dismissible fade show" style="position: fixed; top: 80px; right: 25px; z-index: 1050;" role="alert">
                 <strong class="me-3">$msg</strong>
                 <button type="button" class="btn-close shadow-none" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
-                alert;
+            alert;
 }
 
 

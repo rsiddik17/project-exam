@@ -62,10 +62,3 @@
 .login-btn:hover {
   background-color: rgba(13, 110, 253, 1);
 }
-
-.custom-alert {
-    position: absolute;
-    top: 50px;
-    left: 50%;
-    transform: translateX(-50%);
-}

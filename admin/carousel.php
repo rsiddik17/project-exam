@@ -22,7 +22,7 @@ adminLogin();
     <div class="container-fluid" id="main-content">
         <div class="row">
             <div class="col-lg-10 ms-auto p-4 overflow-hidden">
-                <h4 class="mb-4">Setting</h4>
+                <h4 class="mb-4">Carousel</h4>
 
                 <div id="alert-container" style="position: fixed; top: 80px; right: 20px; z-index: 1050;"></div>
 
