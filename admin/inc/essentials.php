@@ -4,12 +4,14 @@
 define('SITE_URL', 'http://localhost/new_garden/');
 define('ABOUT_IMG_PATH', SITE_URL.'images/about/');
 define('CAROUSEL_IMG_PATH', SITE_URL.'images/carousel/');
+define('FACILITIES_IMG_PATH', SITE_URL.'images/facilities/');
 
 
 // backend upload process need this data
 define('UPLOAD_IMAGE_PATH', $_SERVER['DOCUMENT_ROOT'].'/new_garden/images/');
 define('ABOUT_FOLDER', 'about/');
 define('CAROUSEL_FOLDER', 'carousel/');
+define('FACILITIES_FOLDER', 'facilities/');
 
 
 function adminLogin()
@@ -74,5 +76,27 @@ function deleteImage($image, $folder) {
         return false;
     }
 }
+
+function uploadPNGImage($image, $folder) {
+    $valid_mime = ['image/png'];
+    $img_mime = $image['type'];
+
+    if(!in_array($img_mime, $valid_mime)) {
+        return 'invalid_image'; // invalid image mime or format
+    } else if(($image['size']/(1024*1024)) > 2) {
+        return 'invalid_size'; // invalid size greater than 2 mb
+    } else {
+        $ext = pathinfo($image['name'], PATHINFO_EXTENSION);
+        $rname = 'IMG_'.random_int(11111, 99999).".$ext";
+
+        $img_path = UPLOAD_IMAGE_PATH.$folder.$rname;
+        if(move_uploaded_file($image['tmp_name'], $img_path)) {
+            return $rname;
+        } else {
+            return 'upload_failed';
+        }
+    }
+}
+
 
 ?>

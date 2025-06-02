@@ -12,6 +12,11 @@
             </div>
         `;
         document.getElementById('alert-container').appendChild(element);
+        setTimeout(remAlert, 2000);
+    }
+
+    function remAlert() {
+        document.getElementsByClassName('alert')[0].remove();
     }
 
 

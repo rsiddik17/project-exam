@@ -59,7 +59,7 @@ if(isset($_GET['del'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Carousel</title>
+    <title>Admin - User Queries</title>
     <?php require('inc/links.php'); ?>
 </head>
 
@@ -74,7 +74,7 @@ if(isset($_GET['del'])) {
 
                 <div id="alert-container" style="position: fixed; top: 80px; right: 20px; z-index: 1050;"></div>
 
-                <!-- Carousel section -->
+                <!-- User Queries section -->
                 <div class="card border-0 shadow-sm mb-4">
                     <div class="card-body">
 

@@ -25,65 +25,27 @@
     <div class="container">
         <div class="row">
 
-            <div class="col-lg-4 col-md-6 mb-5 px-4">
-                <div class="bg-white rounded shadow p-4 border-top border-4 border-dark pop">
-                    <div class="d-flex align-items-center mb-2">
-                        <img src="images/features/wifi.png" alt="" width="40px">
-                        <h5 class="m-0 ms-3">Wifi</h5>
-                    </div>
-                    <p>Wi-Fi is a wireless internet connection that allows guests to access the internet using their smartphones, laptops, tablets, or other devices during their stay.</p>
-                </div>
-            </div>
+            <?php
 
-            <div class="col-lg-4 col-md-6 mb-5 px-4">
-                <div class="bg-white rounded shadow p-4 border-top border-4 border-dark pop">
-                    <div class="d-flex align-items-center mb-2">
-                        <img src="images/features/ac.png" alt="" width="40px">
-                        <h5 class="m-0 ms-3">AC</h5>
-                    </div>
-                    <p>Air conditioning ensures a comfortable indoor temperature by cooling the room, especially useful in hot climates. Guests can adjust the temperature to their preference for a pleasant stay.</p>
-                </div>
-            </div>
+                $res = selectAll('facilities');
+                $path = FACILITIES_IMG_PATH;
 
-            <div class="col-lg-4 col-md-6 mb-5 px-4">
-                <div class="bg-white rounded shadow p-4 border-top border-4 border-dark pop">
-                    <div class="d-flex align-items-center mb-2">
-                        <img src="images/features/television.png" alt="" width="40px">
-                        <h5 class="m-0 ms-3">TV</h5>
-                    </div>
-                    <p>A flat-screen TV is available in each room, offering a variety of local and international channels for entertainment. Some hotels also provide streaming services</p>
-                </div>
-            </div>
+                while($row = mysqli_fetch_assoc($res)) {
+                    echo <<<data
+                        <div class="col-lg-4 col-md-6 mb-5 px-4">
+                            <div class="bg-white rounded shadow p-4 border-top border-4 border-dark pop">
+                             <div class="d-flex align-items-center mb-2">
+                                 <img src="$path$row[icon]" alt="" width="40px">
+                                <h5 class="m-0 ms-3">$row[name]</h5>
+                             </div>
+                             <p>$row[description]</p>
+                            </div>
+                         </div>
+                    data;
+                }
 
-            <div class="col-lg-4 col-md-6 mb-5 px-4">
-                <div class="bg-white rounded shadow p-4 border-top border-4 border-dark pop">
-                    <div class="d-flex align-items-center mb-2">
-                        <img src="images/features/room-heater.png" alt="" width="40px">
-                        <h5 class="m-0 ms-3">Room Heater</h5>
-                    </div>
-                    <p>Room heaters provide warmth during colder seasons, maintaining a cozy and comfortable environment inside the room. Ideal for hotels located in cool or mountain areas.</p>
-                </div>
-            </div>
+            ?>
 
-            <div class="col-lg-4 col-md-6 mb-5 px-4">
-                <div class="bg-white rounded shadow p-4 border-top border-4 border-dark pop">
-                    <div class="d-flex align-items-center mb-2">
-                        <img src="images/features/gym.png" alt="" width="40px">
-                        <h5 class="m-0 ms-3">Gym Equipment</h5>
-                    </div>
-                    <p>The hotel gym is equipped with modern fitness machines such as treadmills, weights, and exercise bikes. Guests can maintain their workout routine while traveling.</p>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6 mb-5 px-4">
-                <div class="bg-white rounded shadow p-4 border-top border-4 border-dark pop">
-                    <div class="d-flex align-items-center mb-2">
-                        <img src="images/features/wifi.png" alt="" width="40px">
-                        <h5 class="m-0 ms-3">Wifi</h5>
-                    </div>
-                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fugit, vel! Consequatur, cum repellendus iure eum aliquid alias odit? Doloremque, cumque.</p>
-                </div>
-            </div>
         </div>
     </div>
 
