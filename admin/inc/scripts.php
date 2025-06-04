@@ -15,6 +15,20 @@
         setTimeout(remAlert, 2000);
     }
 
+    function alertImage(type, msg) {
+        let succ_fail = (type == 'success') ? 'alert-success' : 'alert-danger';
+        let element = document.createElement('div');
+        element.innerHTML = `
+            <div class="alert ${succ_fail} alert-dismissible fade show" role="alert">
+            <strong class="me-3">${msg}</strong>
+            <button type="button" class="btn-close shadow-none" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        `;
+        document.getElementById('alert-image').appendChild(element);
+
+        setTimeout(remAlert, 2000);
+    }
+
     function remAlert() {
         document.getElementsByClassName('alert')[0].remove();
     }
