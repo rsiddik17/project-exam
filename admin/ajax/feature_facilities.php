@@ -38,9 +38,14 @@ if (isset($_POST['rem_feature'])) {
     $form_data = filteration($_POST);
     $values = [$form_data['rem_feature']];
 
-    $q = "DELETE FROM `features` WHERE `id`=? ";
-    $res = delete($q, $values, 'i');
-    echo $res;
+    $check_q = select('SELECT * FROM `room_features` WHERE `features_id`=?', [$form_data['rem_feature']], 'i');
+    if (mysqli_num_rows($check_q) == 0) {
+        $q = "DELETE FROM `features` WHERE `id`=? ";
+        $res = delete($q, $values, 'i');
+        echo $res;
+    } else {
+        echo 'room_added';
+    }
 }
 
 if (isset($_POST['add_facility'])) {
@@ -81,7 +86,7 @@ if (isset($_POST['get_facility'])) {
                         </td>
                     </tr>
                 DATA;
-                $i++;
+        $i++;
     }
 }
 
@@ -89,11 +94,13 @@ if (isset($_POST['rem_facility'])) {
     $form_data = filteration($_POST);
     $values = [$form_data['rem_facility']];
 
-    $pre_q = "SELECT * FROM `facilities` WHERE `id`=? ";
+    $check_q = select('SELECT * FROM `room_facilities` WHERE `facilities_id`=?', [$form_data['rem_facility']], 'i');
+    if (mysqli_num_rows($check_q) == 0) {
+        $pre_q = "SELECT * FROM `facilities` WHERE `id`=? ";
         $res = select($pre_q, $values, 'i');
         $img = mysqli_fetch_assoc($res);
 
-        if(deleteImage($img['icon'], FACILITIES_FOLDER)) {
+        if (deleteImage($img['icon'], FACILITIES_FOLDER)) {
             $q = "DELETE FROM `facilities` WHERE `id`=?";
             $res =  delete($q, $values, 'i');
             echo $res;
@@ -101,9 +108,8 @@ if (isset($_POST['rem_facility'])) {
             echo 0;
         }
 
-    $q = "DELETE FROM `facilities` WHERE `id`=? ";
-    $res = delete($q, $values, 'i');
-    echo $res;
+        
+    } else {
+        echo 'room_added';
+    }
 }
-
-?>
