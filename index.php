@@ -84,201 +84,98 @@
     <div class="container">
         <div class="row">
 
-            <div class="col-lg-4 col-md-6 mb-3">
-                <div class="card border-0 shadow" style="width: 350px; margin: auto;">
-                    <img src="images/rooms/room-1.jpg" class="card-img-top" alt="room-1">
+            <?php
+                $room_res = select("SELECT * FROM `rooms` WHERE `status`=? AND `removed`=? ORDER BY `id` LIMIT 3", [1, 0], 'ii');
 
-                    <div class="card-body">
-                        <h5>Simple Room</h5>
-                        <h6 class="mb-4">Rp. 500.000,00 per night</h6>
-                        <div class="features mb-4">
-                            <h6 class="mb-1">Room Details</h6>
-                            <span class="badge rounded-pill bg-light text-dark text-wrap">
-                                2 Rooms
-                            </span>
-                            <span class="badge rounded-pill bg-light text-dark text-wrap">
-                                1 Bathroom
-                            </span>
-                            <span class="badge rounded-pill bg-light text-dark text-wrap">
-                                1 Balkon
-                            </span>
-                            <span class="badge rounded-pill bg-light text-dark text-wrap">
-                                3 Sofa
-                            </span>
-                        </div>
+                while ($room_data = mysqli_fetch_assoc($room_res)) {
 
-                        <div class="facilities mb-4">
-                            <h6 class="mb-1">Facilities</h6>
-                            <span class="badge rounded-pill bg-light text-dark text-wrap">
-                                Wifi
-                            </span>
-                            <span class="badge rounded-pill bg-light text-dark text-wrap">
-                                Television
-                            </span>
-                            <span class="badge rounded-pill bg-light text-dark text-wrap">
-                                AC
-                            </span>
-                            <span class="badge rounded-pill bg-light text-dark text-wrap">
-                                Room Heater
-                            </span>
-                        </div>
+                    // get features room
 
-                        <div class="guests mb-4">
-                            <h6 class="mb-1">Guests</h6>
-                            <span class="badge rounded-pill bg-light text-dark text-wrap">
-                                5 Adults
-                            </span>
-                            <span class="badge rounded-pill bg-light text-dark text-wrap">
-                                4 Children
-                            </span>
-                        </div>
+                    $fea_q = mysqli_query($con, "SELECT f.name from `features` f 
+                        INNER JOIN `room_features` rfea ON f.id = rfea.features_id 
+                        WHERE rfea.room_id = '$room_data[id]'");
 
-                        <div class="rating mb-4">
-                            <h6 class="mb-1">Rating</h6>
-                            <span class="badge rounded-pill bg-light">
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-fill text-warning"></i>
-                            </span>
-                        </div>
-                        <div class="d-flex justify-content-evenly mb-2">
-                            <a href="#" class="btn btn-sm submit-bg shadow-none">Book Now</a>
-                            <a href="#" class="btn btn-sm btn-outline-primary shadow-none">More Details</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                    $features_data = "";
+                    while ($fea_row = mysqli_fetch_assoc($fea_q)) {
+                        $features_data .= "<span class='badge rounded-pill bg-light text-dark text-wrap me-1 mb-1'>
+                                        $fea_row[name] 
+                                    </span>";
+                    }
 
-            <div class="col-lg-4 col-md-6 mb-3">
-                <div class="card border-0 shadow" style="width: 350px; margin: auto;">
-                    <img src="images/rooms/room-2.png" class="card-img-top" alt="kamar-2">
-                    <div class="card-body">
-                        <h5>Simple Room</h5>
-                        <h6 class="mb-4">Rp. 500.000,00 per night</h6>
-                        <div class="features mb-4">
-                            <h6 class="mb-1">Room Details</h6>
-                            <span class="badge rounded-pill bg-light text-dark text-wrap">
-                                2 Rooms
-                            </span>
-                            <span class="badge rounded-pill bg-light text-dark text-wrap">
-                                1 Bathroom
-                            </span>
-                            <span class="badge rounded-pill bg-light text-dark text-wrap">
-                                1 Balkon
-                            </span>
-                            <span class="badge rounded-pill bg-light text-dark text-wrap">
-                                3 Sofa
-                            </span>
-                        </div>
 
-                        <div class="facilities mb-4">
-                            <h6 class="mb-1">Facilities</h6>
-                            <span class="badge rounded-pill bg-light text-dark text-wrap">
-                                Wifi
-                            </span>
-                            <span class="badge rounded-pill bg-light text-dark text-wrap">
-                                Television
-                            </span>
-                            <span class="badge rounded-pill bg-light text-dark text-wrap">
-                                AC
-                            </span>
-                            <span class="badge rounded-pill bg-light text-dark text-wrap">
-                                Room Heater
-                            </span>
-                        </div>
+                    // get facilities room
 
-                        <div class="guests mb-4">
-                            <h6 class="mb-1">Guests</h6>
-                            <span class="badge rounded-pill bg-light text-dark text-wrap">
-                                5 Adults
-                            </span>
-                            <span class="badge rounded-pill bg-light text-dark text-wrap">
-                                4 Children
-                            </span>
-                        </div>
+                    $fac_q = mysqli_query($con, "SELECT f.name from `facilities` f 
+                        INNER JOIN `room_facilities` rfac ON f.id = rfac.facilities_id 
+                        WHERE rfac.room_id = '$room_data[id]'");
+                    
+                    $facilities_data = "";
+                    while ($fac_row = mysqli_fetch_assoc($fac_q)) {
+                        $facilities_data .= "<span class='badge rounded-pill bg-light text-dark text-wrap me-1 mb-1'>
+                                        $fac_row[name] 
+                                    </span>";
+                    }
 
-                        <div class="rating mb-4">
-                            <h6 class="mb-1">Rating</h6>
-                            <span class="badge rounded-pill bg-light">
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-fill text-warning"></i>
-                            </span>
-                        </div>
-                        <div class="d-flex justify-content-evenly mb-2">
-                            <a href="#" class="btn btn-sm submit-bg shadow-none">Book Now</a>
-                            <a href="#" class="btn btn-sm  btn-outline-primary shadow-none">More Details</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                    // get thumbnail of image
+                    
+                    $room_thumb = ROOMS_IMG_PATH."thumbnail.jpg";
+                    $thumb_q = mysqli_query($con, "SELECT * FROM `room_images`
+                         WHERE `room_id` = '$room_data[id]'
+                         AND `thumb` = '1'");
 
-            <div class="col-lg-4 col-md-6">
-                <div class="card border-0 shadow" style="width: 350px; margin: auto;">
-                    <img src="images/rooms/room-3.png" class="card-img-top" alt="kamar-3">
-                    <div class="card-body">
-                        <h5>Simple Room</h5>
-                        <h6 class="mb-4">Rp. 500.000,00 per night</h6>
-                        <div class="features mb-4">
-                            <h6 class="mb-1">Room Details</h6>
-                            <span class="badge rounded-pill bg-light text-dark text-wrap">
-                                2 Rooms
-                            </span>
-                            <span class="badge rounded-pill bg-light text-dark text-wrap">
-                                1 Bathroom
-                            </span>
-                            <span class="badge rounded-pill bg-light text-dark text-wrap">
-                                1 Balkon
-                            </span>
-                            <span class="badge rounded-pill bg-light text-dark text-wrap">
-                                3 Sofa
-                            </span>
-                        </div>
+                    if(mysqli_num_rows($thumb_q) > 0) {
+                        $thumb_res = mysqli_fetch_assoc($thumb_q);
+                        $room_thumb = ROOMS_IMG_PATH.$thumb_res['image'];
+                    }
 
-                        <div class="facilities mb-4">
-                            <h6 class="mb-1">Facilities</h6>
-                            <span class="badge rounded-pill bg-light text-dark text-wrap">
-                                Wifi
-                            </span>
-                            <span class="badge rounded-pill bg-light text-dark text-wrap">
-                                Television
-                            </span>
-                            <span class="badge rounded-pill bg-light text-dark text-wrap">
-                                AC
-                            </span>
-                            <span class="badge rounded-pill bg-light text-dark text-wrap">
-                                Room Heater
-                            </span>
-                        </div>
+                    // print room card
+                    echo<<< data
+                            <div class="col-lg-4 col-md-6 mb-3">
+                                <div class="card border-0 shadow" style="width: 350px; margin: auto;">
+                                    <img src="$room_thumb" class="card-img-top" alt="">
 
-                        <div class="guests mb-4">
-                            <h6 class="mb-1">Guests</h6>
-                            <span class="badge rounded-pill bg-light text-dark text-wrap">
-                                5 Adults
-                            </span>
-                            <span class="badge rounded-pill bg-light text-dark text-wrap">
-                                4 Children
-                            </span>
-                        </div>
+                                    <div class="card-body">
+                                        <h5>$room_data[name]</h5>
+                                        <h6 class="mb-4">Rp. $room_data[price],00 per night</h6>
+                                        <div class="features mb-4">
+                                            <h6 class="mb-1">Features</h6>
+                                            $features_data
+                                        </div>
 
-                        <div class="rating mb-4">
-                            <h6 class="mb-1">Rating</h6>
-                            <span class="badge rounded-pill bg-light">
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-fill text-warning"></i>
-                            </span>
-                        </div>
-                        <div class="d-flex justify-content-evenly mb-2">
-                            <a href="#" class="btn btn-sm submit-bg shadow-none">Book Now</a>
-                            <a href="#" class="btn btn-sm btn-outline-primary shadow-none">More Details</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                                        <div class="facilities mb-4">
+                                            <h6 class="mb-1">Facilities</h6>
+                                            $facilities_data
+                                        </div>
+
+                                        <div class="guests mb-4">
+                                            <h6 class="mb-1">Guests</h6>
+                                            <span class="badge rounded-pill bg-light text-dark text-wrap">
+                                                $room_data[adult] Adults
+                                            </span>
+                                            <span class="badge rounded-pill bg-light text-dark text-wrap">
+                                                $room_data[children] Children
+                                            </span>
+                                        </div>
+
+                                        <div class="rating mb-4">
+                                            <h6 class="mb-1">Rating</h6>
+                                            <span class="badge rounded-pill bg-light">
+                                                <i class="bi bi-star-fill text-warning"></i>
+                                                <i class="bi bi-star-fill text-warning"></i>
+                                                <i class="bi bi-star-fill text-warning"></i>
+                                                <i class="bi bi-star-fill text-warning"></i>
+                                            </span>
+                                        </div>
+                                        <div class="d-flex justify-content-evenly mb-2">
+                                            <a href="#" class="btn btn-sm submit-bg shadow-none">Book Now</a>
+                                            <a href="room_details.php?id=$room_data[id]" class="btn btn-sm btn-outline-primary shadow-none">More Details</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    data;
+                }
+                ?>
 
 
             <div class="col-lg-12 text-center mt-5">
@@ -292,30 +189,21 @@
 
     <div class="container">
         <div class="row justify-content-evenly px-lg-0 px-md-0 px-5">
-            <div class="col-lg-2 col-md-2 text-center rounded py-4 my-4 card-hover">
-                <img src="images/features/wifi.png" width="50px" alt="">
-                <h5 class="mt-3">Wifi</h5>
-            </div>
+            <?php
 
-            <div class="col-lg-2 col-md-2 text-center rounded py-4 my-4 card-hover">
-                <img src="images/features/ac.png" width="70px" alt="">
-                <h5 class="mt-3">AC</h5>
-            </div>
+                $res = mysqli_query($con, "SELECT * FROM `facilities` ORDER BY `id` LIMIT 5");
+                $path = FACILITIES_IMG_PATH;
 
-            <div class="col-lg-2 col-md-2 text-center rounded py-4 my-4 card-hover">
-                <img src="images/features/television.png" width="50px" alt="">
-                <h5 class="mt-3">TV</h5>
-            </div>
+                while($row = mysqli_fetch_assoc($res)) {
+                    echo <<<data
+                        <div class="col-lg-2 col-md-2 text-center rounded py-4 my-4 card-hover">
+                             <img src="$path$row[icon]" width="50px" alt="">
+                             <h5 class="mt-3">$row[name]</h5>
+                        </div>
+                    data;
+                }
 
-            <div class="col-lg-2 col-md-2 text-center rounded py-4 my-4 card-hover">
-                <img src="images/features/room-heater.png" width="50px" alt="">
-                <h5 class="mt-3">Room Heater</h5>
-            </div>
-
-            <div class="col-lg-2 col-md-2 text-center rounded py-4 my-4 card-hover">
-                <img src="images/features/gym.png" width="50px" alt="">
-                <h5 class="mt-3">Gym Equipment</h5>
-            </div>
+            ?>
 
             <div class="col-lg-12 text-center mt-5">
                 <a href="facilities.php" class="btn btn-outline-primary rounded-1 fw-bold shadow-none">More Facilities</a>
