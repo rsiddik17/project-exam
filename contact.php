@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New Garden - Contact</title>
     <?php require('inc/links.php') ?>
+    <title><?php echo $settings_con['site_title']; ?> - Contact</title>
 </head>
 
 <body class="bg-c">
@@ -20,14 +20,6 @@
             If you have any questions, need help with your booking, or simply want to get in touch with us, feel free to reach out. We are here to assist you!
         </p>
     </div>
-
-    <?php
-    
-        $contact_q = "SELECT * FROM `contact_details` WHERE `id`=?";
-        $values = [1];
-        $contact_con = mysqli_fetch_assoc(select($contact_q, $values, 'i'));
-
-    ?>
 
     <div class="container">
         <div class="row">

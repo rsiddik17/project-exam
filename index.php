@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New Garden</title>
     <?php require('inc/links.php') ?>
+    <title><?php echo $settings_con['site_title']; ?> - HOME</title>
 </head>
 
 <body class="bg-c">

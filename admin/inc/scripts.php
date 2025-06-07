@@ -12,7 +12,7 @@
             </div>
         `;
         document.getElementById('alert-container').appendChild(element);
-        setTimeout(remAlert, 2000);
+        setTimeout(remAlert, 4000);
     }
 
     function alertImage(type, msg) {
@@ -26,7 +26,7 @@
         `;
         document.getElementById('alert-image').appendChild(element);
 
-        setTimeout(remAlert, 2000);
+        setTimeout(remAlert, 4000);
     }
 
     function remAlert() {

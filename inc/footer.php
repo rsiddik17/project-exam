@@ -1,17 +1,8 @@
-<?php
-    
-        $contact_q = "SELECT * FROM `contact_details` WHERE `id`=?";
-        $values = [1];
-        $contact_con = mysqli_fetch_assoc(select($contact_q, $values, 'i'));
-
-?>
-
-
 <div class="container-fluid bg-fo mt-5 pt-4">
     <div class="row">
         <div class="col-lg-3 col-md-6 mb-4 m">
-            <h3 class="fw-bold fs-4 mb-2">New Garden</h3>
-            <p>Discover the beauty of nature with New Garden. We are dedicated to providing fresh, vibrant, and sustainable garden solutions for every home and space.</p>
+            <h3 class="fw-bold fs-4 mb-2"><?php echo $settings_con['site_title']; ?></h3>
+            <p> <?php echo $settings_con['site_about']; ?></p>
         </div>
 
         <!-- About Section -->
@@ -61,3 +52,79 @@
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    function alert(type, msg) {
+        let succ_fail = (type == 'success') ? 'alert-success' : 'alert-danger';
+        let element = document.createElement('div');
+        element.innerHTML = `
+            <div class="alert ${succ_fail} alert-dismissible fade show" role="alert">
+            <strong class="me-3">${msg}</strong>
+            <button type="button" class="btn-close shadow-none" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        `;
+        document.getElementById('alert-container').appendChild(element);
+        setTimeout(remAlert, 5000);
+    }
+
+    function remAlert() {
+        document.getElementsByClassName('alert')[0].remove();
+    }
+
+
+    let register_form = document.getElementById('register-form');
+
+    register_form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        let data = new FormData();
+
+        data.append('name', register_form.elements['name'].value);
+        data.append('phonenumber', register_form.elements['phonenumber'].value);
+        data.append('dateofbirth', register_form.elements['dateofbirth'].value);
+        data.append('gender', register_form.elements['gender'].value);
+        data.append('address', register_form.elements['address'].value);
+        data.append('email', register_form.elements['email'].value);
+        data.append('profile', register_form.elements['profile'].files[0]);
+        data.append('password', register_form.elements['password'].value);
+        data.append('cpassword', register_form.elements['cpassword'].value);
+        data.append('register', '');
+
+        console.log('Form data:', {
+        name: register_form.elements['name'].value,
+        phonenumber: register_form.elements['phonenumber'].value,
+        email: register_form.elements['email'].value,
+        password: register_form.elements['password'].value,
+        cpassword: register_form.elements['cpassword'].value
+    }); // Debugging
+
+        var myModal = document.getElementById("registerModal");
+        var modal = bootstrap.Modal.getInstance(myModal);
+        modal.hide();
+
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", "ajax/login_register.php", true);
+
+        xhr.onload = function() {
+            if(this.responseText == 'pass_missmatch') {
+                alert('error', "Password Missmatch!");
+            } else if(this.responseText == 'email_already') {
+                alert('error', "Email is already registered!")
+            } else if(this.responseText == 'phone_already') {
+                alert('error', "Phone number is already registered!")
+            } else if(this.responseText == 'invalid_image') {
+                alert('error', "Only JPG, WEBP, & PNG images are allowed!")
+            } else if(this.responseText == 'upload_failed') {
+                alert('error', "Image upload failed!")
+            } else if(this.responseText == 'mail_failed') {
+                alert('error', "Cannot send confirmation email! Server down!")
+            } else if(this.responseText == 'insert_failed') {
+                alert('error', "Registration failed! Server down!")
+            } else {
+                alert('success', "Registration successful. Confirmation link sent to email!");
+                register_form.reset();
+            }
+        };
+        xhr.send(data);
+    })
+</script>
