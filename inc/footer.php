@@ -98,19 +98,19 @@
         xhr.open("POST", "ajax/login_register.php", true);
 
         xhr.onload = function() {
-            if(this.responseText == 'pass_missmatch') {
+            if (this.responseText == 'pass_missmatch') {
                 alert('error', "Password Missmatch!");
-            } else if(this.responseText == 'email_already') {
+            } else if (this.responseText == 'email_already') {
                 alert('error', "Email is already registered!")
-            } else if(this.responseText == 'phone_already') {
+            } else if (this.responseText == 'phone_already') {
                 alert('error', "Phone number is already registered!")
-            } else if(this.responseText == 'invalid_image') {
+            } else if (this.responseText == 'invalid_image') {
                 alert('error', "Only JPG, WEBP, & PNG images are allowed!")
-            } else if(this.responseText == 'upload_failed') {
+            } else if (this.responseText == 'upload_failed') {
                 alert('error', "Image upload failed!")
-            } else if(this.responseText == 'mail_failed') {
+            } else if (this.responseText == 'mail_failed') {
                 alert('error', "Cannot send confirmation email! Server down!")
-            } else if(this.responseText == 'insert_failed') {
+            } else if (this.responseText == 'insert_failed') {
                 alert('error', "Registration failed! Server down!")
             } else {
                 alert('success', "Registration successful. Confirmation link sent to email!");
@@ -120,9 +120,9 @@
         xhr.send(data);
     })
 
-    
+
     let login_form = document.getElementById('login-form');
-    
+
     login_form.addEventListener('submit', (e) => {
         e.preventDefault();
 
@@ -140,16 +140,20 @@
         xhr.open("POST", "ajax/login_register.php", true);
 
         xhr.onload = function() {
-            if(this.responseText == 'invalid_email') {
+            if (this.responseText == 'invalid_email') {
                 alert('error', "Invalid Email!");
-            } else if(this.responseText == 'not_verified') {
+            } else if (this.responseText == 'not_verified') {
                 alert('error', "Email is not verified!")
-            } else if(this.responseText == 'inactive') {
+            } else if (this.responseText == 'inactive') {
                 alert('error', "Account Suspended! Please contact admin")
-            } else if(this.responseText == 'invalid_password') {
+            } else if (this.responseText == 'invalid_password') {
                 alert('error', "Incorrect Password!")
             } else {
-                window.location = window.location.pathname;
+                if (window.location.pathname.includes('room_details.php')) {
+                    window.location.reload();
+                }
+
+                // window.location = window.location.pathname;
             }
         };
         xhr.send(data);
@@ -174,13 +178,13 @@
         xhr.open("POST", "ajax/login_register.php", true);
 
         xhr.onload = function() {
-            if(this.responseText == 'invalid_email') {
+            if (this.responseText == 'invalid_email') {
                 alert('error', "Invalid Email!");
-            } else if(this.responseText == 'not_verified') {
+            } else if (this.responseText == 'not_verified') {
                 alert('error', "Email is not verified!, please contact admin")
-            } else if(this.responseText == 'email_failed') {
+            } else if (this.responseText == 'email_failed') {
                 alert('error', "Cannot send email, Server down")
-            } else if(this.responseText == 'update_failed') {
+            } else if (this.responseText == 'update_failed') {
                 alert('error', "Account recovery failed. Server down")
             } else {
                 alert('success', 'Reset link sent to email')
@@ -190,4 +194,12 @@
         xhr.send(data);
     })
 
+
+    function checkLoginToBook(status, room_id) {
+        if (status) {
+            window.location.href = 'confirm_booking.php?id=' + room_id;
+        } else {
+            alert('error', 'Please login to book room');
+        }
+    }
 </script>

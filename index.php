@@ -131,7 +131,12 @@
                 $book_btn = "";
 
                 if(!$settings_con['shutdown']) {
-                    $book_btn = "<a href='#' class='btn btn-sm submit-bg shadow-none'>Book Now</a>";
+                    $login = 0;
+                    if(isset($_SESSION['login']) && $_SESSION['login'] == true) {
+                        $login = 1;
+                    }
+
+                    $book_btn = "<button onclick='checkLoginToBook($login, $room_data[id])' class='btn btn-sm submit-bg shadow-none'>Book Now</button>";
                 }
 
                 // print room card
