@@ -85,51 +85,51 @@
         <div class="row">
 
             <?php
-                $room_res = select("SELECT * FROM `rooms` WHERE `status`=? AND `removed`=? ORDER BY `id` LIMIT 3", [1, 0], 'ii');
+            $room_res = select("SELECT * FROM `rooms` WHERE `status`=? AND `removed`=? ORDER BY `id` LIMIT 3", [1, 0], 'ii');
 
-                while ($room_data = mysqli_fetch_assoc($room_res)) {
+            while ($room_data = mysqli_fetch_assoc($room_res)) {
 
-                    // get features room
+                // get features room
 
-                    $fea_q = mysqli_query($con, "SELECT f.name from `features` f 
+                $fea_q = mysqli_query($con, "SELECT f.name from `features` f 
                         INNER JOIN `room_features` rfea ON f.id = rfea.features_id 
                         WHERE rfea.room_id = '$room_data[id]'");
 
-                    $features_data = "";
-                    while ($fea_row = mysqli_fetch_assoc($fea_q)) {
-                        $features_data .= "<span class='badge rounded-pill bg-light text-dark text-wrap me-1 mb-1'>
+                $features_data = "";
+                while ($fea_row = mysqli_fetch_assoc($fea_q)) {
+                    $features_data .= "<span class='badge rounded-pill bg-light text-dark text-wrap me-1 mb-1'>
                                         $fea_row[name] 
                                     </span>";
-                    }
+                }
 
 
-                    // get facilities room
+                // get facilities room
 
-                    $fac_q = mysqli_query($con, "SELECT f.name from `facilities` f 
+                $fac_q = mysqli_query($con, "SELECT f.name from `facilities` f 
                         INNER JOIN `room_facilities` rfac ON f.id = rfac.facilities_id 
                         WHERE rfac.room_id = '$room_data[id]'");
-                    
-                    $facilities_data = "";
-                    while ($fac_row = mysqli_fetch_assoc($fac_q)) {
-                        $facilities_data .= "<span class='badge rounded-pill bg-light text-dark text-wrap me-1 mb-1'>
+
+                $facilities_data = "";
+                while ($fac_row = mysqli_fetch_assoc($fac_q)) {
+                    $facilities_data .= "<span class='badge rounded-pill bg-light text-dark text-wrap me-1 mb-1'>
                                         $fac_row[name] 
                                     </span>";
-                    }
+                }
 
-                    // get thumbnail of image
-                    
-                    $room_thumb = ROOMS_IMG_PATH."thumbnail.jpg";
-                    $thumb_q = mysqli_query($con, "SELECT * FROM `room_images`
+                // get thumbnail of image
+
+                $room_thumb = ROOMS_IMG_PATH . "thumbnail.jpg";
+                $thumb_q = mysqli_query($con, "SELECT * FROM `room_images`
                          WHERE `room_id` = '$room_data[id]'
                          AND `thumb` = '1'");
 
-                    if(mysqli_num_rows($thumb_q) > 0) {
-                        $thumb_res = mysqli_fetch_assoc($thumb_q);
-                        $room_thumb = ROOMS_IMG_PATH.$thumb_res['image'];
-                    }
+                if (mysqli_num_rows($thumb_q) > 0) {
+                    $thumb_res = mysqli_fetch_assoc($thumb_q);
+                    $room_thumb = ROOMS_IMG_PATH . $thumb_res['image'];
+                }
 
-                    // print room card
-                    echo<<< data
+                // print room card
+                echo <<< data
                             <div class="col-lg-4 col-md-6 mb-3">
                                 <div class="card border-0 shadow" style="width: 350px; margin: auto;">
                                     <img src="$room_thumb" class="card-img-top" alt="">
@@ -174,8 +174,8 @@
                                 </div>
                             </div>
                     data;
-                }
-                ?>
+            }
+            ?>
 
 
             <div class="col-lg-12 text-center mt-5">
@@ -191,17 +191,17 @@
         <div class="row justify-content-evenly px-lg-0 px-md-0 px-5">
             <?php
 
-                $res = mysqli_query($con, "SELECT * FROM `facilities` ORDER BY `id` LIMIT 5");
-                $path = FACILITIES_IMG_PATH;
+            $res = mysqli_query($con, "SELECT * FROM `facilities` ORDER BY `id` LIMIT 5");
+            $path = FACILITIES_IMG_PATH;
 
-                while($row = mysqli_fetch_assoc($res)) {
-                    echo <<<data
+            while ($row = mysqli_fetch_assoc($res)) {
+                echo <<<data
                         <div class="col-lg-2 col-md-2 text-center rounded py-4 my-4 card-hover">
                              <img src="$path$row[icon]" width="50px" alt="">
                              <h5 class="mt-3">$row[name]</h5>
                         </div>
                     data;
-                }
+            }
 
             ?>
 
@@ -335,8 +335,75 @@
         </div>
     </div>
 
+
+    <!-- Password reset modal and code -->
+    <div class="modal fade" id="recoveryModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content glass-login">
+
+                <form action="" id="recovery-form">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5 d-flex align-items-center text-white">
+                            <i class="bi bi-shiled-lock fs-3 me-2"></i> Set up new password
+                        </h1>
+                    </div>
+
+                    <div class="modal-body text-white">
+                        <div class="mb-3">
+                            <label for="password" class="form-label">New Password</label>
+                            <input type="password" id="password" name="password" class="form-control shadow-none glass-login" required>
+                            <input type="hidden" name="email">
+                            <input type="hidden" name="token">
+                        </div>
+
+
+                        <div class="mb-2 text-end">
+                            <button type="button" class="btn border-0 text-decoration-none text-white shadow-none me-2" data-bs-dismiss="modal">CANCEL</button>
+                            <button type="submit" class="btn btn-primary shadow-none">SUBMIT</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <?php
+
+    if (isset($_GET['account_recovery'])) {
+        $data = filteration($_GET);
+
+        $t_date = date("Y-m-d");
+
+        $query = select(
+            "SELECT * FROM `user_crud` WHERE `email`=? AND `token`=? AND `t_expire`=? LIMIT 1",
+            [$data['email'], $data['token'], $t_date], 'sss');
+
+
+        if (mysqli_num_rows($query) == 1) {
+            echo <<<showModal
+                        <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                        var myModal = document.getElementById("recoveryModal");
+
+                        myModal.querySelector("input[name='email']").value = '$data[email]';
+                        myModal.querySelector("input[name='token']").value = '$data[token]';
+
+                        var modal = bootstrap.Modal.getOrCreateInstance(myModal);
+                        modal.show();
+                        });
+                        </script>
+                showModal;
+        } else {
+            alert("error", "Invalid or Expired Link !");
+        }
+    }
+
+    ?>
+
+
     <!-- Footer -->
     <?php require('inc/footer.php') ?>
+
 
     <?php require('inc/scripts.php') ?>
     <script>
@@ -383,6 +450,38 @@
                 },
             }
         });
+
+
+        // recover account
+        let recovery_form = document.getElementById('recovery-form');
+
+        recovery_form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            let data = new FormData();
+
+            data.append('email', recovery_form.elements['email'].value);
+            data.append('token', recovery_form.elements['token'].value);
+            data.append('password', recovery_form.elements['password'].value);
+            data.append('recovery_user', '');
+
+            var myModal = document.getElementById("recoveryModal");
+            var modal = bootstrap.Modal.getInstance(myModal);
+            modal.hide();
+
+            let xhr = new XMLHttpRequest();
+            xhr.open("POST", "ajax/login_register.php", true);
+
+            xhr.onload = function() {
+                if (this.responseText == 'failed') {
+                    alert('error', "Account reset failed!")
+                } else {
+                    alert('success', 'Account reset successful!')
+                    recovery_form.reset();
+                }
+            };
+            xhr.send(data);
+        })
     </script>
 </body>
 

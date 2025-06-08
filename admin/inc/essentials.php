@@ -19,6 +19,8 @@ define('USERS_FOLDER', 'users/');
 
 // sendgrid api key
 define('SENDGRID_API_KEY', "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");
+define('SENDGRID_EMAIL', "freesidik07@gmail.com");
+define('SENDGRID_NAME', "New Garden");
 
 
 function adminLogin()

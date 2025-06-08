@@ -5,9 +5,11 @@
 <link rel="stylesheet" href="css/global.css">
 
 <?php
+session_start();
 
 require('admin/inc/db_config.php');
 require('admin/inc/essentials.php');
+date_default_timezone_set('Asia/Jakarta');
 
 
 $contact_q = "SELECT * FROM `contact_details` WHERE `id`=?";

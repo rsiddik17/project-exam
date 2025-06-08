@@ -90,14 +90,6 @@
         data.append('cpassword', register_form.elements['cpassword'].value);
         data.append('register', '');
 
-        console.log('Form data:', {
-        name: register_form.elements['name'].value,
-        phonenumber: register_form.elements['phonenumber'].value,
-        email: register_form.elements['email'].value,
-        password: register_form.elements['password'].value,
-        cpassword: register_form.elements['cpassword'].value
-    }); // Debugging
-
         var myModal = document.getElementById("registerModal");
         var modal = bootstrap.Modal.getInstance(myModal);
         modal.hide();
@@ -127,4 +119,75 @@
         };
         xhr.send(data);
     })
+
+    
+    let login_form = document.getElementById('login-form');
+    
+    login_form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        let data = new FormData();
+
+        data.append('email', login_form.elements['email'].value);
+        data.append('password', login_form.elements['password'].value);
+        data.append('login', '');
+
+        var myModal = document.getElementById("loginModal");
+        var modal = bootstrap.Modal.getInstance(myModal);
+        modal.hide();
+
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", "ajax/login_register.php", true);
+
+        xhr.onload = function() {
+            if(this.responseText == 'invalid_email') {
+                alert('error', "Invalid Email!");
+            } else if(this.responseText == 'not_verified') {
+                alert('error', "Email is not verified!")
+            } else if(this.responseText == 'inactive') {
+                alert('error', "Account Suspended! Please contact admin")
+            } else if(this.responseText == 'invalid_password') {
+                alert('error', "Incorrect Password!")
+            } else {
+                window.location = window.location.pathname;
+            }
+        };
+        xhr.send(data);
+    })
+
+
+    let forgot_form = document.getElementById('forgot-form');
+
+    forgot_form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        let data = new FormData();
+
+        data.append('email', forgot_form.elements['email'].value);
+        data.append('forgot_password', '');
+
+        var myModal = document.getElementById("forgotModal");
+        var modal = bootstrap.Modal.getInstance(myModal);
+        modal.hide();
+
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", "ajax/login_register.php", true);
+
+        xhr.onload = function() {
+            if(this.responseText == 'invalid_email') {
+                alert('error', "Invalid Email!");
+            } else if(this.responseText == 'not_verified') {
+                alert('error', "Email is not verified!, please contact admin")
+            } else if(this.responseText == 'email_failed') {
+                alert('error', "Cannot send email, Server down")
+            } else if(this.responseText == 'update_failed') {
+                alert('error', "Account recovery failed. Server down")
+            } else {
+                alert('success', 'Reset link sent to email')
+                forgot_form.reset();
+            }
+        };
+        xhr.send(data);
+    })
+
 </script>
