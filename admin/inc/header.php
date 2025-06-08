@@ -19,13 +19,16 @@
                         <a class="nav-link" href="dashboard.php">Dashboard</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="users.php">Users</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="user_queries.php">User Queries</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="rooms.php">Rooms</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="features_facilities.php">Features & Facilities</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="user_queries.php">User Queries</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="carousel.php">Carousel</a>

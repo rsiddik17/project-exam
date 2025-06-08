@@ -128,6 +128,12 @@
                     $room_thumb = ROOMS_IMG_PATH . $thumb_res['image'];
                 }
 
+                $book_btn = "";
+
+                if(!$settings_con['shutdown']) {
+                    $book_btn = "<a href='#' class='btn btn-sm submit-bg shadow-none'>Book Now</a>";
+                }
+
                 // print room card
                 echo <<< data
                             <div class="col-lg-4 col-md-6 mb-3">
@@ -167,7 +173,7 @@
                                             </span>
                                         </div>
                                         <div class="d-flex justify-content-evenly mb-2">
-                                            <a href="#" class="btn btn-sm submit-bg shadow-none">Book Now</a>
+                                            $book_btn
                                             <a href="room_details.php?id=$room_data[id]" class="btn btn-sm btn-outline-primary shadow-none">More Details</a>
                                         </div>
                                     </div>

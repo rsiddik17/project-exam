@@ -100,7 +100,7 @@
                     $fac_q = mysqli_query($con, "SELECT f.name from `facilities` f 
                         INNER JOIN `room_facilities` rfac ON f.id = rfac.facilities_id 
                         WHERE rfac.room_id = '$room_data[id]'");
-                    
+
                     $facilities_data = "";
                     while ($fac_row = mysqli_fetch_assoc($fac_q)) {
                         $facilities_data .= "<span class='badge rounded-pill bg-light text-dark text-wrap me-1 mb-1'>
@@ -109,19 +109,25 @@
                     }
 
                     // get thumbnail of image
-                    
-                    $room_thumb = ROOMS_IMG_PATH."thumbnail.jpg";
+
+                    $room_thumb = ROOMS_IMG_PATH . "thumbnail.jpg";
                     $thumb_q = mysqli_query($con, "SELECT * FROM `room_images`
                          WHERE `room_id` = '$room_data[id]'
                          AND `thumb` = '1'");
 
-                    if(mysqli_num_rows($thumb_q) > 0) {
+                    if (mysqli_num_rows($thumb_q) > 0) {
                         $thumb_res = mysqli_fetch_assoc($thumb_q);
-                        $room_thumb = ROOMS_IMG_PATH.$thumb_res['image'];
+                        $room_thumb = ROOMS_IMG_PATH . $thumb_res['image'];
+                    }
+
+                    $book_btn = "";
+
+                    if (!$settings_con['shutdown']) {
+                        $book_btn = "<a href='#' class='btn btn-sm submit-bg shadow-none'>Book Now</a>";
                     }
 
                     // print room card
-                    echo<<< data
+                    echo <<< data
                             <div class="card mb-4 border-0 shadow">
                                 <div class="row g-0 p-3 align-items-center">
                                     <div class="col-md-5 mb-lg-0 mb-md-0 mb-3">
@@ -153,7 +159,7 @@
 
                                     <div class="col-md-2 mt-lg-0 mt-md-0 mt-4 text-center">
                                         <h6 class="mb-4">Rp. $room_data[price].000,00 per night</h6>
-                                        <a href="#" class="btn btn-sm w-100 submit-bg shadow-none mb-2">Book Now</a>
+                                        $book_btn
                                         <a href="room_details.php?id=$room_data[id]" class="btn btn-sm w-100 btn-outline-primary shadow-none">More Details</a>
                                     </div>
                                 </div>
