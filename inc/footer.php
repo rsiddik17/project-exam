@@ -151,6 +151,8 @@
             } else {
                 if (window.location.pathname.includes('room_details.php')) {
                     window.location.reload();
+                } else {
+                     window.location.reload();
                 }
 
                 // window.location = window.location.pathname;

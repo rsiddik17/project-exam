@@ -31,13 +31,13 @@
                         echo<<<data
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-outline-dark shadow-none dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
-                                        <img src="$path$_SESSION[uProfile]" style="width: 25px; height: 25px;" class="me-1">
+                                        <img src="$path$_SESSION[uProfile]" style="width: 25px; height: 25px;" class="rounded-circle me-1">
                                         $_SESSION[uName]
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-lg-end">
                                         <li><a class="dropdown-item" href="profile.php">Profile</a></li>
                                         <li><a class="dropdown-item" href="bookings.php">Bookings</a></li>
-                                        <li><a class="dropdown-item" href="logout.php">Logout</a></li>
+                                        <li><a class="dropdown-item" style="background-color: transparent;" onmouseover="this.style.backgroundColor='#f8d7da'; this.style.color='#a71d2a'" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#dc3545'" href="logout.php">Logout</a></li>
                                     </ul>
                                 </div>
                         data;

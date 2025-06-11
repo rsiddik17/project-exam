@@ -44,7 +44,7 @@
         "id" => $room_data['id'],
         "name" => $room_data['name'],
         "price" => $room_data['price'],
-        "payment" => null,
+        "book" => null,
         "available" => false,
     ];
 
@@ -99,7 +99,7 @@
             <div class="col-lg-5 col-md-12 px-4">
                 <div class="card mb-4 border-0 shadow rounded-3">
                     <div class="card-body">
-                        <form action="#" id="booking-form">
+                        <form action="book_now.php" id="booking-form">
                             <h6 class="mb-3">BOOKING DETAILS</h6>
                             <div class="row">
                                 <div class="col-md-6 mb-3">
@@ -126,8 +126,8 @@
                                     <div class="spinner-border text-info mb-3 d-none" id="info_loader" role="status">
                                         <span class="visually-hidden">Loading...</span>
                                     </div>
-                                    <h6 class="mb-3 text-danger" id="pay_info">Provide check-in & check-out date !</h6>
-                                    <button name="pay_now" class="btn w-100 submit-bg shadow-none mb-1" disabled>Pay Now</button>
+                                    <h6 class="mb-3 text-danger" id="book_info">Provide check-in & check-out date !</h6>
+                                    <button name="book_now" class="btn w-100 submit-bg shadow-none mb-1" disabled>Book Now</button>
                                 </div>
                             </div>
                         </form>
@@ -148,16 +148,16 @@
 
         let info_loader = document.getElementById('info_loader');
 
-        let pay_info = document.getElementById('pay_info');
+        let book_info = document.getElementById('book_info');
 
         function check_availability() {
             let checkin_val = booking_form.elements['checkin'].value;
             let checkout_val = booking_form.elements['checkout'].value;
-            booking_form.elements['pay_now'].setAttribute('disabled', true)
+            booking_form.elements['book_now'].setAttribute('disabled', true)
 
             if (checkin_val != '' && checkout_val != '') {
-                pay_info.classList.add('d-none');
-                pay_info.classList.replace('text-dark', 'text-danger');
+                book_info.classList.add('d-none');
+                book_info.classList.replace('text-dark', 'text-danger');
                 info_loader.classList.remove('d-none');
 
                 let data = new FormData();
@@ -173,20 +173,20 @@
                     let data =JSON.parse(this.responseText);
 
                     if(data.status == 'check_in_out_equal') {
-                        pay_info.innerText = "You cannot check-out on the same day!";
+                        book_info.innerText = "You cannot check-out on the same day!";
                     } else if(data.status == 'check_out_earlier') {
-                        pay_info.innerText = "Check-out date is earlier than check-in date!";
+                        book_info.innerText = "Check-out date is earlier than check-in date!";
                     } else if(data.status == 'check_in_earlier') {
-                        pay_info.innerText = "Check-in date is earlier than today's date!";
+                        book_info.innerText = "Check-in date is earlier than today's date!";
                     } else if(data.status == 'unavailable') {
-                        pay_info.innerText = "Room not available for this check-in date!";
+                        book_info.innerText = "Room not available for this check-in date!";
                     } else {
-                        pay_info.innerHTML = "No. of Days: " + data.days + "<br> Total Amount to Pay: Rp. " + data.payment;
-                        pay_info.classList.replace('text-danger', 'text-dark');
-                        booking_form.elements['pay_now'].removeAttribute('disabled');
+                        book_info.innerHTML = "No. of Days: " + data.days + "<br> Total Amount to Pay: Rp. " + data.book;
+                        book_info.classList.replace('text-danger', 'text-dark');
+                        booking_form.elements['book_now'].removeAttribute('disabled');
                     }
 
-                    pay_info.classList.remove('d-none');
+                    book_info.classList.remove('d-none');
                     info_loader.classList.add('d-none');
                 };
                 xhr.send(data);

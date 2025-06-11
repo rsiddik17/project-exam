@@ -9,7 +9,7 @@
 </head>
 
 <body class="bg-c">
-
+    
     <!-- Navbar -->
     <?php require('inc/header.php') ?>
 
